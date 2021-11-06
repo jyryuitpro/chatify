@@ -1,4 +1,5 @@
 import 'package:chatify/widgets/custom_input_fields.dart';
+import 'package:chatify/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -37,7 +38,14 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _pageTitle(),
+            SizedBox(
+              height: _deviceHeight * 0.04,
+            ),
             _loginForm(),
+            SizedBox(
+              height: _deviceHeight * 0.05,
+            ),
+            _loginButton()
           ],
         ),
       ),
@@ -84,6 +92,15 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _loginButton() {
+    return RoundedButton(
+      name: 'Login',
+      height: _deviceHeight * 0.065,
+      width: _deviceWidth * 0.65,
+      onPressed: () {},
     );
   }
 }
