@@ -1,4 +1,5 @@
 import 'package:chatify/services/cloud_storage_service.dart';
+import 'package:chatify/services/database_service.dart';
 import 'package:chatify/services/media_service.dart';
 import 'package:chatify/services/navigation_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,6 +67,10 @@ class _SplashPageState extends State<SplashPage> {
 
     GetIt.instance.registerSingleton<CloudStorageService>(
       CloudStorageService(),
+    );
+
+    GetIt.instance.registerSingleton<DatabaseService>(
+      DatabaseService(),
     );
   }
 }
