@@ -18,8 +18,8 @@ class ChatUser {
       uid: _json["uid"],
       name: _json["name"],
       email: _json["email"],
-      imageURL: _json["imageURL"],
-      lastActive: _json["lastActive"].toDate(),
+      imageURL: _json["image"],
+      lastActive: _json["last_active"].toDate(),
     );
   }
 
@@ -28,7 +28,7 @@ class ChatUser {
       "email": email,
       "name": name,
       "image": imageURL,
-      "lastActive": lastActive,
+      "last_active": lastActive,
     };
   }
 
