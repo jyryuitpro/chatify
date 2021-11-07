@@ -7,6 +7,7 @@ class MediaService {
     FilePickerResult? _result =
         await FilePicker.platform.pickFiles(type: FileType.image);
     if(_result != null) {
+      print(_result);
       return _result.files[0];
     }
     return null;
