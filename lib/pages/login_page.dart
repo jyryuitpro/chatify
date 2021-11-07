@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _registerAccountLink() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => _navigation.navigateToRoute('/register'),
       child: Container(
         child: Text(
           'Don\'t have an account',
