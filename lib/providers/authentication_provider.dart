@@ -16,13 +16,14 @@ class AuthenticationProvider extends ChangeNotifier {
     _auth = FirebaseAuth.instance;
     _navigationService = GetIt.instance.get<NavigationService>();
     _databaseService = GetIt.instance.get<DatabaseService>();
+    // _auth.signOut();
     _auth.authStateChanges().listen((_user) {
       if (_user != null) {
         _databaseService.updateUserLastSeenTime(_user.uid);
         _databaseService.getUser(_user.uid).then(
           (_snapshot) {
             Map<String, dynamic> _userData =
-                _snapshot.data() as Map<String, dynamic>;
+                _snapshot.data()! as Map<String, dynamic>;
             user = ChatUser.fromJSON(
               {
                 "uid": _user.uid,
@@ -32,12 +33,11 @@ class AuthenticationProvider extends ChangeNotifier {
                 "last_active": _userData["last_active"],
               },
             );
-            print(user);
-            print(user.toMap());
           },
         );
+        _navigationService.removeAndNavigateToRoute('/home');
       } else {
-        print('Not Authenticated');
+        _navigationService.removeAndNavigateToRoute('/login');
       }
     });
   }
