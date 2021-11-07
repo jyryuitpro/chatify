@@ -1,4 +1,5 @@
 import 'package:chatify/services/media_service.dart';
+import 'package:chatify/widgets/custom_input_fields.dart';
 import 'package:chatify/widgets/rounded_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,13 @@ class _RegisterPageState extends State<RegisterPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
+  String? _name;
+  String? _email;
+  String? _password;
+
   PlatformFile? _profileImage;
+
+  final _registerFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +47,10 @@ class _RegisterPageState extends State<RegisterPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _profileImageField(),
+            SizedBox(
+              height: _deviceHeight * 0.05,
+            ),
+            _registerForm(),
           ],
         ),
       ),
@@ -71,6 +82,53 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         }
       }(),
+    );
+  }
+
+  Widget _registerForm() {
+    return Container(
+      height: _deviceHeight * 0.35,
+      child: Form(
+        key: _registerFormKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CustomTextFormField(
+              onSaved: (_value) {
+                setState(() {
+                  _name = _value;
+                });
+              },
+              regEx:
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+              hintText: 'Name',
+              obscureText: false,
+            ),
+            CustomTextFormField(
+              onSaved: (_value) {
+                setState(() {
+                  _email = _value;
+                });
+              },
+              regEx: r".{8,}",
+              hintText: 'Email',
+              obscureText: false,
+            ),
+            CustomTextFormField(
+              onSaved: (_value) {
+                setState(() {
+                  _password = _value;
+                });
+              },
+              regEx: r".{8,}",
+              hintText: 'Password',
+              obscureText: true,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
