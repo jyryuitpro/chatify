@@ -1,3 +1,4 @@
+import 'package:chatify/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomListViewTileWithActivity extends StatelessWidget {
@@ -25,7 +26,12 @@ class CustomListViewTileWithActivity extends StatelessWidget {
     return ListTile(
       onTap: () => onTap(),
       minVerticalPadding: height * 0.20,
-      leading: ,
+      leading: RoundedImageNetworkWithStatusIndicator(
+        key: UniqueKey(),
+        size: height / 2,
+        imagePath: imagePath,
+        isActive: isActive,
+      ),
       title: Text(
         title,
         style: TextStyle(
