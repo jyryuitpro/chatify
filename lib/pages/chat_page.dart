@@ -1,6 +1,8 @@
 import 'package:chatify/models/chat.dart';
+import 'package:chatify/models/chat_message.dart';
 import 'package:chatify/providers/authentication_provider.dart';
 import 'package:chatify/providers/chat_page_provider.dart';
+import 'package:chatify/widgets/custom_list_view_tiles.dart';
 import 'package:chatify/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -104,12 +106,20 @@ class _ChatPageState extends State<ChatPage> {
           child: ListView.builder(
             itemCount: _pageProvider.messages!.length,
             itemBuilder: (_context, _index) {
+              ChatMessage _message = _pageProvider.messages![_index];
+              bool _isOwnMessage = _message.senderID == _auth.user.uid;
               return Container(
-                child: Text(
-                  _pageProvider.messages![_index].content,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                child: CustomChatListViewTile(
+                  width: _deviceWidth * 0.80,
+                  deviceHeight: _deviceHeight,
+                  message: _message,
+                  isOwnMessage: _isOwnMessage,
+                  sender: this
+                      .widget
+                      .chat
+                      .members
+                      .where((_m) => _m.uid == _message.senderID)
+                      .first,
                 ),
               );
             },
