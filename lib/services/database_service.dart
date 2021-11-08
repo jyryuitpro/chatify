@@ -26,6 +26,13 @@ class DatabaseService {
     return _db.collection(USER_COLLECTION).doc(_uid).get();
   }
 
+  Stream<QuerySnapshot> getChatsForUser(String _uid) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .where('members', arrayContains: _uid)
+        .snapshots();
+  }
+
   Future<void> updateUserLastSeenTime(String _uid) async {
     try {
       await _db.collection(USER_COLLECTION).doc(_uid).update(
