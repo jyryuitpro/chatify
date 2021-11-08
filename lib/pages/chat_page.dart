@@ -86,6 +86,7 @@ class _ChatPageState extends State<ChatPage> {
                       onPressed: () {},
                     ),
                   ),
+                  _messagesListView(),
                 ],
               ),
             ),
@@ -93,5 +94,42 @@ class _ChatPageState extends State<ChatPage> {
         );
       },
     );
+  }
+
+  Widget _messagesListView() {
+    if (_pageProvider.messages != null) {
+      if (_pageProvider.messages!.length != 0) {
+        return Container(
+          height: _deviceHeight * 0.74,
+          child: ListView.builder(
+            itemCount: _pageProvider.messages!.length,
+            itemBuilder: (_context, _index) {
+              return Container(
+                child: Text(
+                  _pageProvider.messages![_index].content,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      } else {
+        return Align(
+          alignment: Alignment.center,
+          child: Text(
+            'Be the first to say Hi',
+            style: TextStyle(color: Colors.white),
+          ),
+        );
+      }
+    } else {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Colors.white,
+        ),
+      );
+    }
   }
 }
