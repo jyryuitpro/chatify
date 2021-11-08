@@ -6,6 +6,7 @@ import 'package:chatify/services/cloud_storage_service.dart';
 import 'package:chatify/services/database_service.dart';
 import 'package:chatify/services/media_service.dart';
 import 'package:chatify/services/navigation_service.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -60,6 +61,46 @@ class ChatPageProvider extends ChangeNotifier {
       print('Error getting messages.');
       print(e);
     }
+  }
+
+  void sendTextMessage() {
+    if (_message != null) {
+      ChatMessage _messageToSend = ChatMessage(
+        content: _message!,
+        type: MessageType.TEXT,
+        senderID: _auth.user.uid,
+        sentTime: DateTime.now(),
+      );
+      _db.addMessageToChat(_chatId, _messageToSend);
+    }
+  }
+
+  void sendImageMessage() async {
+    try {
+      PlatformFile? _file = await _media.pickImageFromLibrary();
+      if (_file != null) {
+        String? _downloadURL = await _storage.saveChatImageToStorage(
+          _chatId,
+          _auth.user.uid,
+          _file,
+        );
+        ChatMessage _messageToSend = ChatMessage(
+          content: _downloadURL!,
+          type: MessageType.IMAGE,
+          senderID: _auth.user.uid,
+          sentTime: DateTime.now(),
+        );
+        _db.addMessageToChat(_chatId, _messageToSend);
+      }
+    } on Exception catch (e) {
+      print('Error sending image message');
+      print(e);
+    }
+  }
+
+  void deleteChat() {
+    goBack();
+    _db.deleteChat(_chatId);
   }
 
   void goBack() {
