@@ -1,4 +1,6 @@
 import 'package:chatify/models/chat.dart';
+import 'package:chatify/models/chat_message.dart';
+import 'package:chatify/models/chat_user.dart';
 import 'package:chatify/providers/authentication_provider.dart';
 import 'package:chatify/providers/chats_page_provider.dart';
 import 'package:chatify/widgets/custom_list_view_tiles.dart';
@@ -79,7 +81,7 @@ class _ChatsPageState extends State<ChatsPage> {
             return ListView.builder(
               itemCount: _chats.length,
               itemBuilder: (_context, _index) {
-                return _chatTile();
+                return _chatTile(_chats[_index]);
               },
             );
           } else {
@@ -103,14 +105,23 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 
-  Widget _chatTile() {
+  Widget _chatTile(Chat _chat) {
+    List<ChatUser> _recepients = _chat.recepients();
+    bool _isActive = _recepients.any((_d) => _d.wasRecentlyActive());
+    String _subtitleText = '';
+    if (_chat.messages.isNotEmpty) {
+      _subtitleText = _chat.messages.first.type != MessageType.TEXT
+          ? "Media Attachment"
+          : _chat.messages.first.content;
+    }
+
     return CustomListViewTileWithActivity(
       height: _deviceHeight * 0.08,
-      title: 'jyryuitpro',
-      subtitle: 'Hello!',
-      imagePath: 'https://i.pravatar.cc/300',
-      isActive: false,
-      isActivity: false,
+      title: _chat.title(),
+      subtitle: _subtitleText,
+      imagePath: _chat.imageURL(),
+      isActive: _isActive,
+      isActivity: _chat.activity,
       onTap: () {},
     );
   }
