@@ -1,3 +1,4 @@
+import 'package:chatify/models/chat.dart';
 import 'package:chatify/providers/authentication_provider.dart';
 import 'package:chatify/providers/chats_page_provider.dart';
 import 'package:chatify/widgets/custom_list_view_tiles.dart';
@@ -24,7 +25,6 @@ class _ChatsPageState extends State<ChatsPage> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ChatsPageProvider>(
@@ -70,8 +70,36 @@ class _ChatsPageState extends State<ChatsPage> {
   }
 
   Widget _chatsList() {
+    List<Chat>? _chats = _pageProvider.chats;
+    print(_chats);
     return Expanded(
-      child: _chatTile(),
+      child: (() {
+        if (_chats != null) {
+          if (_chats.length != 0) {
+            return ListView.builder(
+              itemCount: _chats.length,
+              itemBuilder: (_context, _index) {
+                return _chatTile();
+              },
+            );
+          } else {
+            return Center(
+              child: Text(
+                'No Chats Found.',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            );
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        }
+      })(),
     );
   }
 

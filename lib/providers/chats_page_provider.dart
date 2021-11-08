@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ChatsPageProvider extends ChangeNotifier {
-  AuthenticationProvider _auth;
+  final AuthenticationProvider _auth;
 
   late DatabaseService _db;
 
@@ -44,6 +44,7 @@ class ChatsPageProvider extends ChangeNotifier {
                 DocumentSnapshot _userSnapshot = await _db.getUser(_uid);
                 Map<String, dynamic> _userData =
                     _userSnapshot.data() as Map<String, dynamic>;
+                _userData["uid"] = _userSnapshot.id;
                 _members.add(
                   ChatUser.fromJSON(_userData),
                 );
