@@ -13,6 +13,7 @@ class CloudStorageService {
 
   Future<String?> saveUserImageToStorage(
       String _uid, PlatformFile _file) async {
+    print('===== saveUserImageToStorage() =====');
     try {
       Reference _ref =
           _storage.ref().child('images/users/$_uid/profile.${_file.extension}');

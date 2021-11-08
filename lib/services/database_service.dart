@@ -11,6 +11,7 @@ class DatabaseService {
 
   Future<void> createUser(
       String _uid, String _email, String _name, String _imageURL) async {
+    print('===== createUser() =====');
     await _db.collection(USER_COLLECTION).doc(_uid).set(
       {
         "email": _email,

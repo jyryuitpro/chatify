@@ -30,6 +30,7 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<AuthenticationProvider>(
           create: (_context) {
+            print('===== AuthenticationProvider =====');
             return AuthenticationProvider();
           },
         ),

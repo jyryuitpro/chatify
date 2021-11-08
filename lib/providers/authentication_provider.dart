@@ -18,21 +18,26 @@ class AuthenticationProvider extends ChangeNotifier {
     _databaseService = GetIt.instance.get<DatabaseService>();
     // _auth.signOut();
     _auth.authStateChanges().listen((_user) {
+      print('===== _auth.authStateChanges().listen() =====');
       if (_user != null) {
+        print('===== _user: $_user =====');
         _databaseService.updateUserLastSeenTime(_user.uid);
         _databaseService.getUser(_user.uid).then(
           (_snapshot) {
-            Map<String, dynamic> _userData =
-                _snapshot.data()! as Map<String, dynamic>;
-            user = ChatUser.fromJSON(
-              {
-                "uid": _user.uid,
-                "name": _userData["name"],
-                "email": _userData["email"],
-                "image": _userData["image"],
-                "last_active": _userData["last_active"],
-              },
-            );
+            print('===== _snapshot.data(): ${_snapshot.data()} =====');
+            if(_snapshot.data() != null) {
+              Map<String, dynamic> _userData =
+                  _snapshot.data()! as Map<String, dynamic>;
+              user = ChatUser.fromJSON(
+                {
+                  "uid": _user.uid,
+                  "name": _userData["name"],
+                  "email": _userData["email"],
+                  "image": _userData["image"],
+                  "last_active": _userData["last_active"],
+                },
+              );
+            }
           },
         );
         _navigationService.removeAndNavigateToRoute('/home');
@@ -57,6 +62,7 @@ class AuthenticationProvider extends ChangeNotifier {
 
   Future<String?> registerUserUsingEmailAndPassword(
       String _email, String _password) async {
+    print('===== registerUserUsingEmailAndPassword() =====');
     try {
       UserCredential _credentials = await _auth.createUserWithEmailAndPassword(
         email: _email,
