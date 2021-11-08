@@ -1,4 +1,5 @@
 import 'package:chatify/providers/authentication_provider.dart';
+import 'package:chatify/widgets/custom_list_view_tiles.dart';
 import 'package:chatify/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +48,15 @@ class _ChatsPageState extends State<ChatsPage> {
                 _auth.logout();
               },
             ),
+          ),
+          CustomListViewTileWithActivity(
+            height: _deviceHeight * 0.08,
+            title: 'jyryuitpro',
+            subtitle: 'Hello!',
+            imagePath: 'https://i.pravatar.cc/300',
+            isActive: false,
+            isActivity: false,
+            onTap: () {},
           ),
         ],
       ),
