@@ -1,5 +1,6 @@
 import 'package:chatify/models/chat_message.dart';
 import 'package:chatify/models/chat_user.dart';
+import 'package:chatify/widgets/message_bubbles.dart';
 import 'package:chatify/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -100,8 +101,12 @@ class CustomChatListViewTile extends StatelessWidget {
                   imagePath: sender.imageURL,
                   size: width * 0.04)
               : Container(),
-          SizedBox(width: width * 0.05,),
-          message.type == MessageType.TEXT ? Text(message.content) : Text(message.content),
+          SizedBox(
+            width: width * 0.05,
+          ),
+          message.type == MessageType.TEXT
+              ? TextMessageBubble(isOwnMessage: isOwnMessage, message: message, height: deviceHeight * 0.06, width: width,)
+              : Text(message.content),
         ],
       ),
     );
